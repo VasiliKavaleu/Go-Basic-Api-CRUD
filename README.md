@@ -1,3 +1,5 @@
+## Golang: Gin, Gorm; PostgreSQL
+
 Basic web App implementing CRUD
 
 Clone project, run Database, and install dependency
@@ -14,5 +16,10 @@ Run server
 go run main.go
 ```
 
- Swager docs
+After running server swager docs are available:
 [a link](http://localhost:8080/swagger/index.html#)
+
+###Additional info
+
+How to use swag with Gin:
+[a link](https://github.com/swaggo/swag)
