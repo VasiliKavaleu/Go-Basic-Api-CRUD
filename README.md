@@ -13,3 +13,6 @@ Run server
 ```bash
 go run main.go
 ```
+
+ Swager docs
+[a link](http://localhost:8080/swagger/index.html#)

@@ -18,8 +18,14 @@ type UpdateTrackInput struct {
    Title  string `json:"title"`
 }
 
-// GET /tracks
-// Получаем список всех треков
+
+// GetAllTracks godoc
+// @Summary Show a Tracks
+// @Description Get all tracks
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Track
+// @Router /tracks [get]
 func GetAllTracks(context *gin.Context) {
    var tracks []models.Track  // срез элементы которого трэки из базы (тип models.Track)
    models.DB.Find(&tracks)
@@ -46,8 +52,15 @@ func CreateTrack(context *gin.Context) {
    context.JSON(http.StatusOK, gin.H{"tracks": track})
 }
 
-// GET /tracks/:id
-// Получение одного трека по ID
+// GetTrack godoc
+// @Summary Get track by id
+// @Description Get track by id
+// @ID get-string-by-int
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Track ID"
+// @Success 200 {object} models.Track
+// @Router /tracks/{id} [get]
 func GetTrack(context *gin.Context) {
    // Проверяем имеется ли запись
    var track models.Track
