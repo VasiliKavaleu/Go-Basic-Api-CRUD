@@ -16,10 +16,8 @@ Run server
 go run main.go
 ```
 
-After running server swager docs are available:
-[a link](http://localhost:8080/swagger/index.html#)
+[After running server swager docs are available](http://localhost:8080/swagger/index.html#)
 
-###Additional info
+### Additional info
 
-How to use swag with Gin:
-[a link](https://github.com/swaggo/swag)
+[How to use swag with Gin](https://github.com/swaggo/swag)
