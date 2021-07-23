@@ -21,3 +21,4 @@ go run main.go
 ### Additional info
 
 [How to use swag with Gin](https://github.com/swaggo/swag)
+[Example of using swag](https://github.com/swaggo/swag/blob/master/example/celler/controller/examples.go)

@@ -42,6 +42,7 @@ var doc = `{
                     "application/json"
                 ],
                 "summary": "Show a Tracks",
+                "operationId": "get-all-tracks-by",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -50,6 +51,43 @@ var doc = `{
                             "items": {
                                 "$ref": "#/definitions/models.Track"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/tracks/": {
+            "post": {
+                "description": "post request example",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Create a new Tracл",
+                "parameters": [
+                    {
+                        "description": "Track Info",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Track"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "fail",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -67,6 +105,68 @@ var doc = `{
                 "summary": "Get track by id",
                 "operationId": "get-string-by-int",
                 "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Track ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Track"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete track by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete track by id",
+                "operationId": "delete-string-by-int",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Track ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                }
+            },
+            "patch": {
+                "description": "Change track",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Change track",
+                "operationId": "change-string-by-int",
+                "parameters": [
+                    {
+                        "description": "Track Info",
+                        "name": "message",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Track"
+                        }
+                    },
                     {
                         "type": "integer",
                         "description": "Track ID",

@@ -22,6 +22,7 @@ type UpdateTrackInput struct {
 // GetAllTracks godoc
 // @Summary Show a Tracks
 // @Description Get all tracks
+// @ID get-all-tracks-by
 // @Accept  json
 // @Produce  json
 // @Success 200 {array} models.Track
@@ -34,8 +35,15 @@ func GetAllTracks(context *gin.Context) {
 }
 
 
-// POST /tracks
-// Создание трека
+// CreateTrack godoc
+// @Summary Create a new Tracл
+// @Description post request example
+// @Accept json
+// @Produce plain
+// @Param message body models.Track true "Track Info"
+// @Success 200 {string} string "success"
+// @Failure 500 {string} string "fail"
+// @Router /tracks/ [post]
 func CreateTrack(context *gin.Context) {
 
    var input CreateTrackInput
@@ -72,8 +80,16 @@ func GetTrack(context *gin.Context) {
    context.JSON(http.StatusOK, gin.H{"tracks": track})
 }
 
-// PATCH /tracks/:id
-// Изменения информации
+// UpdateTrack godoc
+// @Summary Change track
+// @Description  Change track
+// @ID change-string-by-int
+// @Accept  json
+// @Produce  json
+// @Param message body models.Track true "Track Info"
+// @Param id path int true "Track ID"
+// @Success 200 {object} models.Track
+// @Router /tracks/{id} [patch]
 func UpdateTrack(context *gin.Context) {
    // Проверяем имеется ли такая запись перед тем как её менять
    var track models.Track
@@ -93,8 +109,15 @@ func UpdateTrack(context *gin.Context) {
    context.JSON(http.StatusOK, gin.H{"tracks": track})
 }
 
-// DELETE /tracks/:id
-// Удаление
+// DeleteTrack godoc
+// @Summary Delete track by id
+// @Description Delete track by id
+// @ID delete-string-by-int
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Track ID"
+// @Success 204
+// @Router /tracks/{id} [delete]
 func DeleteTrack(context *gin.Context) {
    // Проверяем имеется ли такая запись перед тем как её удалять
    var track models.Track

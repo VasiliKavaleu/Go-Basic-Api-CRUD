@@ -26,6 +26,7 @@ paths:
       consumes:
       - application/json
       description: Get all tracks
+      operationId: get-all-tracks-by
       produces:
       - application/json
       responses:
@@ -36,7 +37,48 @@ paths:
               $ref: '#/definitions/models.Track'
             type: array
       summary: Show a Tracks
+  /tracks/:
+    post:
+      consumes:
+      - application/json
+      description: post request example
+      parameters:
+      - description: Track Info
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/models.Track'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Create a new Tracл
   /tracks/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete track by id
+      operationId: delete-string-by-int
+      parameters:
+      - description: Track ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+      summary: Delete track by id
     get:
       consumes:
       - application/json
@@ -56,4 +98,29 @@ paths:
           schema:
             $ref: '#/definitions/models.Track'
       summary: Get track by id
+    patch:
+      consumes:
+      - application/json
+      description: Change track
+      operationId: change-string-by-int
+      parameters:
+      - description: Track Info
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/models.Track'
+      - description: Track ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Track'
+      summary: Change track
 swagger: "2.0"
