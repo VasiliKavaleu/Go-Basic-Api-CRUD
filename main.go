@@ -4,6 +4,8 @@ import (
     "github.com/gin-gonic/gin"
     swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+    "github.com/spf13/viper"
+    "log"
 
     _ "crud_go_app/docs"
 
@@ -26,13 +28,23 @@ import (
 // @BasePath /
 
 func main() {
+    if err := initConfig(); err != nil {
+        log.Fatalf("Error initializing configs: %s", err.Error())
+    }
     route := gin.Default()
 
     // Подключение к базе данных
-    models.ConnectDB()
+    models.ConnectDB(models.ConfigDB{
+        Host:     viper.GetString("db.host"),
+        Port:     viper.GetString("db.port"),
+        Username: viper.GetString("db.user"),
+        Password: viper.GetString("db.password"),
+        DBName:   viper.GetString("db.dbname"),
+        SSLMode:  viper.GetString("db.sslmode"),
+    })
 
     url := ginSwagger.URL("http://localhost:8080/swagger/doc.json") // The url pointing to API definition
-	route.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+    route.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
     // Маршруты
     route.GET("/tracks", controllers.GetAllTracks)
@@ -44,4 +56,10 @@ func main() {
 
     // Запуск сервера
     route.Run()
+}
+
+func initConfig() error {
+    viper.AddConfigPath("configs")
+    viper.SetConfigName("config")
+    return viper.ReadInConfig()
 }
