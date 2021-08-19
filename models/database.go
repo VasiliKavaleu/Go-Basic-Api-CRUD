@@ -7,7 +7,7 @@ import (
 	"fmt"
 	)
 
-var DB *gorm.DB
+var DB *gorm.DB // переменная БД
 
 type ConfigDB struct {
 	Host     string
@@ -24,7 +24,7 @@ func ConnectDB(cfg ConfigDB) {
 	if err != nil {
 		panic("Не удалось подключиться к базе данных")
 	}
-	db.AutoMigrate(&Track{})
+	db.AutoMigrate(&Track{}, &User{})
 
 	DB = db
 }

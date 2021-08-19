@@ -3,7 +3,7 @@ package main
 import (
     "github.com/gin-gonic/gin"
     swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	   ginSwagger "github.com/swaggo/gin-swagger"
     "github.com/spf13/viper"
     "log"
 
@@ -52,6 +52,13 @@ func main() {
     route.GET("/tracks/:id", controllers.GetTrack)
     route.PATCH("/tracks/:id", controllers.UpdateTrack)
     route.DELETE("/tracks/:id", controllers.DeleteTrack)
+
+    // public := route.Group("/public")
+    // {
+    //   public.POST("/login", controllers.Login)
+    //   public.POST("/signup", controllers.Signup)
+    // }
+    route.POST("/signup", controllers.Signup)
 
 
     // Запуск сервера
