@@ -11,6 +11,7 @@ import (
 
     "crud_go_app/models"
     "crud_go_app/controllers"
+    "crud_go_app/middlewares"
 )
 
 
@@ -26,6 +27,10 @@ import (
 // @license.url https://github.com/VasiliKavaleu/Go-Basic-Api-CRUD.git
 
 // @BasePath /
+
+// @securityDefinitions.apikey Bearer
+// @in header
+// @name Authorization
 
 func main() {
     if err := initConfig(); err != nil {
@@ -53,12 +58,18 @@ func main() {
     route.PATCH("/tracks/:id", controllers.UpdateTrack)
     route.DELETE("/tracks/:id", controllers.DeleteTrack)
 
-    // public := route.Group("/public")
-    // {
-    //   public.POST("/login", controllers.Login)
-    //   public.POST("/signup", controllers.Signup)
-    // }
-    route.POST("/signup", controllers.Signup)
+    profile := route.Group("/profile").Use(middlewares.Authz())
+    {
+      profile.GET("/", controllers.Profile)
+    }
+
+    public := route.Group("/public")
+    {
+      public.POST("/login", controllers.Login)
+      public.POST("/signup", controllers.Signup)
+    }
+
+
 
 
     // Запуск сервера

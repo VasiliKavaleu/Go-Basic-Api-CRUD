@@ -1,5 +1,12 @@
 basePath: /
 definitions:
+  controllers.LoginPayload:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
   models.Track:
     properties:
       artist:
@@ -32,6 +39,26 @@ info:
   title: Basic CRUD App via Golang
   version: "1.0"
 paths:
+  /profile:
+    get:
+      consumes:
+      - application/json
+      description: Profile returns user data
+      operationId: get-profile-by-email-from-jwt
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "500":
+          description: fail
+          schema:
+            type: string
+      security:
+      - Bearer: []
+      summary: View Profile
   /public/login/:
     post:
       consumes:
@@ -43,7 +70,7 @@ paths:
         name: message
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/controllers.LoginPayload'
       produces:
       - text/plain
       responses:
@@ -55,7 +82,18 @@ paths:
           description: fail
           schema:
             type: string
-      summary: Create a new User
+      summary: Login logs users in
+  /public/signup/:
+    post:
+      responses:
+        "201":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
   /tracks:
     get:
       consumes:
@@ -158,4 +196,9 @@ paths:
           schema:
             $ref: '#/definitions/models.Track'
       summary: Change track
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -32,6 +32,38 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/profile": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Profile returns user data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "View Profile",
+                "operationId": "get-profile-by-email-from-jwt",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "500": {
+                        "description": "fail",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/public/login/": {
             "post": {
                 "description": "post request example",
@@ -41,7 +73,7 @@ var doc = `{
                 "produces": [
                     "text/plain"
                 ],
-                "summary": "Create a new User",
+                "summary": "Login logs users in",
                 "parameters": [
                     {
                         "description": "User Info",
@@ -49,12 +81,30 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.User"
+                            "$ref": "#/definitions/controllers.LoginPayload"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
+                        "description": "success",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "fail",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/signup/": {
+            "post": {
+                "responses": {
+                    "201": {
                         "description": "success",
                         "schema": {
                             "type": "string"
@@ -224,6 +274,17 @@ var doc = `{
         }
     },
     "definitions": {
+        "controllers.LoginPayload": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Track": {
             "type": "object",
             "properties": {
@@ -254,6 +315,13 @@ var doc = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

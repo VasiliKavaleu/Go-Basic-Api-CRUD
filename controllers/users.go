@@ -5,7 +5,6 @@ import (
     "github.com/jinzhu/gorm"
     "net/http"
     "log"
-    "fmt"
 
     "crud_go_app/models"
     "crud_go_app/auth"
@@ -22,15 +21,15 @@ type CreateUserInput struct {
 // @Description post request example
 // @Accept json
 // @Produce plain
-// @Param message body models.User true "User Info"
-// @Success 200 {string} string "success"
+
+// @Success 201 {string} string "success"
 // @Failure 500 {string} string "fail"
-// @Router /public/login/ [post]
+// @Router /public/signup/ [post]
 func Signup(c *gin.Context) {
   // Signup creates a user in db
 	var user models.User
-  
-  fmt.Println(c.Request)
+
+  // fmt.Println(c.PostForm())
 
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
@@ -68,7 +67,7 @@ func Signup(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, user)
+	c.JSON(http.StatusCreated, user)
 }
 
 
@@ -84,7 +83,15 @@ type LoginResponse struct {
 }
 
 
-// Login logs users in
+// Login godoc
+// @Summary Login logs users in
+// @Description post request example
+// @Accept json
+// @Produce plain
+// @Param message body LoginPayload true "User Info"
+// @Success 200 {string} string "success"
+// @Failure 500 {string} string "fail"
+// @Router /public/login/ [post]
 func Login(c *gin.Context) {
 	var payload LoginPayload
 	var user models.User
@@ -139,6 +146,51 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tokenResponse)
+
+	return
+}
+
+
+
+// Profile godoc
+// @Summary View Profile
+// @Description Profile returns user data
+// @Accept  json
+// @Produce  json
+// @ID get-profile-by-email-from-jwt
+// @Success 200 {object} models.User
+// @Failure 500 {string} string "fail"
+// @Router /profile [get]
+// @Security Bearer
+// @securityDefinitions.apikey Bearer
+// @in header
+// @name Authorization
+func Profile(c *gin.Context) {
+	var user models.User
+
+	email, _ := c.Get("email") // from the authorization middleware
+
+	result := models.DB.Where("email = ?", email.(string)).First(&user)
+
+	if result.Error == gorm.ErrRecordNotFound {
+		c.JSON(404, gin.H{
+			"msg": "user not found",
+		})
+		c.Abort()
+		return
+	}
+
+	if result.Error != nil {
+		c.JSON(500, gin.H{
+			"msg": "could not get user profile",
+		})
+		c.Abort()
+		return
+	}
+
+	user.Password = ""
+
+	c.JSON(200, user)
 
 	return
 }
