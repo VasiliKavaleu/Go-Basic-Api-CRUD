@@ -9,6 +9,17 @@ definitions:
       title:
         type: string
     type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact:
     email: example@email.com
@@ -21,6 +32,30 @@ info:
   title: Basic CRUD App via Golang
   version: "1.0"
 paths:
+  /public/login/:
+    post:
+      consumes:
+      - application/json
+      description: post request example
+      parameters:
+      - description: User Info
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "500":
+          description: fail
+          schema:
+            type: string
+      summary: Create a new User
   /tracks:
     get:
       consumes:
